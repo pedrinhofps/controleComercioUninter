@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Conta - Gestão Local</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <h2>🚀 Criar sua Conta</h2>
+        <form id="formRegistro">
+            <div class="form-group">
+                <label>Seu Nome</label>
+                <input type="text" id="reg_nome" required placeholder="Ex: João Silva">
+            </div>
+            <div class="form-group">
+                <label>Nome da Empresa / Loja</label>
+                <input type="text" id="reg_empresa" required placeholder="Ex: Supermercado do João">
+            </div>
+            <div class="form-group">
+                <label>E-mail (Seu Login)</label>
+                <input type="email" id="reg_email" required placeholder="joao@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label>Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="reg_senha" required placeholder="Crie uma senha forte">
+                    <span class="toggle-password" onclick="togglePass('reg_senha', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Confirme a Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="reg_senha_confirma" required placeholder="Repita a senha">
+                    <span class="toggle-password" onclick="togglePass('reg_senha_confirma', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Pergunta de Segurança (Para recuperar senha)</label>
+                <select id="reg_pergunta" required>
+                    <option value="Qual o nome do seu primeiro animal de estimação?">Qual o nome do seu primeiro animal de estimação?</option>
+                    <option value="Qual o nome da sua mãe?">Qual o nome da sua mãe?</option>
+                    <option value="Qual foi a sua primeira escola?">Qual foi a sua primeira escola?</option>
+                    <option value="Qual a sua comida favorita?">Qual a sua comida favorita?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Sua Resposta de Segurança</label>
+                <input type="text" id="reg_resposta" required placeholder="Sua resposta secreta">
+            </div>
+            <button type="submit" class="btn-auth">Cadastrar e Entrar</button>
+        </form>
+        <div class="link-rodape">
+            Já tem uma conta? <a href="login.html">Faça Login aqui</a>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
+</body>
+</html>

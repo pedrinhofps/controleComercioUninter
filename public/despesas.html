@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Despesas - Gestão Local</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Gestão Local</h2>
+        <a href="index.html">Visão Geral</a>
+        <a href="produtos.html">📦 Produtos</a>
+        <a href="vendas.html">💰 PDV (Frente de Caixa)</a>
+        <a href="historico.html">📜 Histórico</a>
+        <a href="despesas.html" class="active">📉 Despesas</a>
+        <a href="perfil.html">👤 Meu Perfil</a>
+        <a href="#" onclick="fazerLogout()" style="color: #e74c3c; margin-top: auto; display: block; padding-top: 20px;">🚪 Sair</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Controle de Despesas</h1>
+        </div>
+
+        <div class="form-container" style="margin-bottom: 30px;">
+            <h2>Registrar Nova Saída</h2>
+            <form id="formDespesa" style="display: grid; grid-template-columns: 3fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <input type="text" id="desc_despesa" required placeholder="O que foi pago?">
+                </div>
+                <div class="form-group">
+                    <label>Valor (R$)</label>
+                    <input type="text" id="valor_despesa" required placeholder="Ex: 150,00">
+                </div>
+                <button type="submit" class="btn" style="grid-column: span 2; background: #e74c3c;">Registrar Despesa</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Histórico de Despesas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaDespesas">
+                    <tr><td colspan="4" style="text-align: center;">Carregando despesas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div id="modalConfirmacaoDespesa" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Excluir Despesa?</h3>
+            <p>Tem certeza que deseja apagar este registro?<br>O valor voltará a compor o lucro no Dashboard.</p>
+            <div class="modal-buttons">
+                <button id="btnFecharModalDespesa" class="btn-cancelar">Não, Voltar</button>
+                <button id="btnConfirmarExclusaoDespesa" class="btn-confirmar">Sim, Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

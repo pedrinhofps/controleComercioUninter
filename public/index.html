@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Comércio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Gestão Local</h2>
+        <a href="index.html" class="active">Visão Geral</a>
+        <a href="produtos.html">📦 Produtos</a>
+        <a href="vendas.html">💰 PDV (Frente de Caixa)</a>
+        <a href="historico.html">📜 Histórico</a>
+        <a href="despesas.html">📉 Despesas</a>
+        <a href="perfil.html">👤 Meu Perfil</a>
+        <a href="#" onclick="fazerLogout()" style="color: #e74c3c; margin-top: auto; display: block; padding-top: 20px;">🚪 Sair</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header" style="margin-bottom: 20px;">
+            <h2 id="display_nome_empresa" style="color: #3498db; margin-bottom: 5px; font-size: 24px;">Carregando...</h2>
+        </div>
+
+        <!-- BARRA DE CONTROLE DE FECHAMENTO E RELATÓRIO -->
+        <div style="background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            
+            <!-- Escolha do Modo (Diário ou Mensal) -->
+            <div style="display: flex; gap: 30px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 15px;">
+                <label style="cursor: pointer; font-size: 16px; font-weight: bold; color: #2c3e50; display: flex; align-items: center; gap: 8px;">
+                    <input type="radio" name="tipo_visao" value="diario" checked style="width: 18px; height: 18px; accent-color: #3498db;"> 
+                    📅 Fechamento Diário (Por Dia)
+                </label>
+                <label style="cursor: pointer; font-size: 16px; font-weight: bold; color: #2c3e50; display: flex; align-items: center; gap: 8px;">
+                    <input type="radio" name="tipo_visao" value="mensal" style="width: 18px; height: 18px; accent-color: #3498db;"> 
+                    📊 Resumo Mensal (Visão Geral)
+                </label>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                
+                <div id="controle_diario" style="display: flex; align-items: center; gap: 10px;">
+                    <label style="font-size: 14px; color: #7f8c8d; font-weight: bold;">Selecione o Dia:</label>
+                    <input type="date" id="data_filtro" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; color: #2c3e50; outline: none; cursor: pointer;">
+                </div>
+
+                <div id="controle_mensal" style="display: none; align-items: center; gap: 10px;">
+                    <label style="font-size: 14px; color: #7f8c8d; font-weight: bold;">Mês e Ano:</label>
+                    <select id="mes_select" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; color: #2c3e50; outline: none; cursor: pointer;">
+                        <option value="01">Janeiro</option><option value="02">Fevereiro</option>
+                        <option value="03">Março</option><option value="04">Abril</option>
+                        <option value="05">Maio</option><option value="06">Junho</option>
+                        <option value="07">Julho</option><option value="08">Agosto</option>
+                        <option value="09">Setembro</option><option value="10">Outubro</option>
+                        <option value="11">Novembro</option><option value="12">Dezembro</option>
+                    </select>
+                    <input type="number" id="ano_select" min="2020" max="2100" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; width: 90px; color: #2c3e50; outline: none;">
+                </div>
+
+                <button id="btn_exportar" class="btn" style="background: #2c3e50; color: #fff; border-radius: 8px; padding: 12px 20px; font-size: 15px; width: auto; margin-top: 0; transition: all 0.2s;"><span style="margin-right: 8px;">🖨️</span> Imprimir Relatório</button>
+            </div>
+        </div>
+
+        <div class="dashboard-cards">
+
+        <div class="cards-container">
+            <div class="card">
+                <h3>Total de Receitas (Vendas)</h3>
+                <p class="text-green">R$ 0,00</p>
+            </div>
+            <div class="card">
+                <h3>Total de Despesas</h3>
+                <p class="text-red">R$ 0,00</p>
+            </div>
+            <div class="card">
+                <h3>Lucro Líquido</h3>
+                <p class="text-blue">R$ 0,00</p>
+            </div>
+        </div>
+
+        <div class="actions">
+            <h2>Ações Rápidas</h2>
+            <a href="vendas.html" class="btn btn-green">Registrar Nova Venda</a>
+            <a href="despesas.html" class="btn btn-red">Lançar Nova Despesa</a>
+            <a href="produtos.html" class="btn">Cadastrar Produto</a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

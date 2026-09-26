@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Perfil - Gestão Local</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Gestão Local</h2>
+        <a href="index.html">Visão Geral</a>
+        <a href="produtos.html">📦 Produtos</a>
+        <a href="vendas.html">💰 PDV (Frente de Caixa)</a>
+        <a href="historico.html">📜 Histórico</a>
+        <a href="despesas.html">📉 Despesas</a>
+        <a href="perfil.html" class="active">👤 Meu Perfil</a>
+        <a href="#" onclick="fazerLogout()" style="color: #e74c3c; margin-top: auto; display: block; padding-top: 20px;">🚪 Sair</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header" style="margin-bottom: 20px;">
+            <h2 id="display_nome_empresa" style="color: #3498db; margin-bottom: 5px; font-size: 24px;">Carregando...</h2>
+            <h1 style="margin-top: 0; font-size: 20px; color: #2c3e50;">Configurações da Conta</h1>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+            
+            <!-- DADOS DO PERFIL -->
+            <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #2c3e50;">Informações da Empresa</h3>
+                <form id="formPerfilDados">
+                    <div class="form-group">
+                        <label>E-mail de Acesso (Não pode ser alterado)</label>
+                        <input type="text" id="perfil_email" disabled style="background: #f4f6f7; color: #7f8c8d; cursor: not-allowed;">
+                    </div>
+                    <div class="form-group">
+                        <label>Seu Nome</label>
+                        <input type="text" id="perfil_nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nome da Empresa / Loja</label>
+                        <input type="text" id="perfil_empresa" required>
+                    </div>
+                    <button type="submit" class="btn" style="background: #3498db; width: 100%;">💾 Salvar Dados</button>
+                </form>
+            </div>
+
+            <!-- ALTERAR SENHA -->
+            <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #2c3e50;">Segurança</h3>
+                <form id="formPerfilSenha">
+                    <div class="form-group">
+                        <label>Senha Atual</label>
+                        <input type="password" id="senha_atual" required placeholder="Digite a senha que você usa hoje">
+                    </div>
+                    <div class="form-group">
+                        <label>Nova Senha</label>
+                        <input type="password" id="nova_senha" required placeholder="Crie uma nova senha">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Nova Senha</label>
+                        <input type="password" id="nova_senha_confirma" required placeholder="Repita a nova senha">
+                    </div>
+                    <button type="submit" class="btn" style="background: #e67e22; width: 100%;">🔐 Atualizar Senha</button>
+                </form>
+            </div>
+
+            <!-- BACKUP E RESTAURAÇÃO -->
+            <div style="background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); grid-column: 1 / -1; margin-top: 5px;">
+                <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #2c3e50;">Backup do Sistema</h3>
+                <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 20px;">
+                    Para exportar seus dados (fazer cópia de segurança) ou importar um banco de dados antigo, digite sua senha de acesso para autorizar.
+                </p>
+                
+                <div style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+                    
+                    <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 250px;">
+                        <label>Sua Senha de Autorização</label>
+                        <input type="password" id="senha_backup" placeholder="Digite sua senha atual">
+                    </div>
+                    
+                    <button id="btn_exportar_db" class="btn" style="background: #27ae60; width: auto; margin-bottom: 0;">
+                        <span style="margin-right: 8px;">📥</span> Fazer Backup (.sqlite)
+                    </button>
+
+                    <div style="position: relative; overflow: hidden; display: inline-block;">
+                        <button class="btn" style="background: #e74c3c; width: auto; margin-bottom: 0;">
+                            <span style="margin-right: 8px;">📤</span> Restaurar Backup
+                        </button>
+                        <input type="file" id="arquivo_importar" accept=".sqlite" style="font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer;">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

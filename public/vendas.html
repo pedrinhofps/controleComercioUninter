@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frente de Caixa - Controle de Comércio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Gestão Local</h2>
+        <a href="index.html">Visão Geral</a>
+        <a href="produtos.html">📦 Produtos</a>
+        <a href="vendas.html" class="active">💰 PDV (Frente de Caixa)</a>
+        <a href="historico.html">📜 Histórico</a>
+        <a href="despesas.html">📉 Despesas</a>
+        <a href="perfil.html">👤 Meu Perfil</a>
+        <a href="#" onclick="fazerLogout()" style="color: #e74c3c; margin-top: auto; display: block; padding-top: 20px;">🚪 Sair</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Caixa</h1>
+        </div>
+
+        <!-- Layout dividido em Duas Colunas usando Flexbox -->
+        <div style="display: flex; gap: 20px;">
+            
+            <!-- Adicionar Itens -->
+            <div class="form-container" style="flex: 1; max-width: none;">
+                <h2>1. Adicionar Produto</h2>
+                <form id="formAdicionarItem">
+                    <div class="form-group" style="position: relative;">
+                        <label>Pesquisar e Selecionar Produto</label>
+                        
+                        <input type="text" id="busca_produto" placeholder="🔍 Clique ou digite para pesquisar..." autocomplete="off" required style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer;">
+                        
+                        <!-- Guarda a ID pro banco de dados -->
+                        <input type="hidden" id="produto_id">
+                        
+                        <!-- A lista flutuante que vai aparecer em baixo -->
+                        <div id="dropdown_produtos" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 5px; max-height: 200px; overflow-y: auto; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="quantidade_venda" min="1" required placeholder="Ex: 2">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtotal (R$)</label>
+                        <input type="text" id="valor_total_display" disabled style="background-color: #e9ecef; font-weight: bold; color: #27ae60;">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">➕ Adicionar ao Carrinho</button>
+                </form>
+            </div>
+
+            <!-- Carrinho de Compras -->
+            <div class="form-container" style="flex: 1; max-width: none; background-color: #f8f9fa;">
+                <h2>2. Carrinho Atual</h2>
+                
+                <!-- Lista onde os produtos vão aparecer -->
+                <div id="listaCarrinho" style="min-height: 150px; background: white; border: 1px solid #ccc; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    <p style="text-align: center; color: #7f8c8d; margin-top: 40px;">O carrinho está vazio</p>
+                </div>
+                
+                <!-- Valor Total do Pedido -->
+                <div style="display: flex; justify-content: space-between; font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+                    <span>Total a Pagar:</span>
+                    <span id="valorTotalPedido" class="text-green">R$ 0,00</span>
+                </div>
+                
+                <div style="margin-top: 15px; margin-bottom: 15px;">
+                    <label for="forma_pagamento" style="display: block; font-weight: bold; margin-bottom: 5px; color: #2c3e50;">Forma de Pagamento:</label>
+                    <select id="forma_pagamento" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
+                        <option value="Dinheiro">💵 Dinheiro</option>
+                        <option value="Débito">💳 Cartão de Débito</option>
+                        <option value="Crédito">💳 Cartão de Crédito</option>
+                        <option value="PIX">💠 PIX</option>
+                    </select>
+                </div>
+
+                <button id="btnFinalizarVenda" class="btn btn-green" style="width: 100%; font-size: 20px;">✅ Finalizar Venda</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

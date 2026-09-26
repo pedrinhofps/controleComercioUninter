@@ -1,0 +1,46 @@
+{
+  "name": "controle-comercio",
+  "version": "1.0.0",
+  "description": "O meu sistema de Gestão Local",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.gestaolocal.pdv",
+    "productName": "Gestao Local",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "include": "build/installer.nsh"
+    },
+    "files": [
+      "**/*",
+      "!dados",
+      "!public/uploads",
+      "!dados/**/*",
+      "!public/uploads/**/*"
+    ]
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.4.0",
+    "session-file-store": "^1.5.0",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  }
+}

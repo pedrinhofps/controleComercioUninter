@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar Senha - Gestão Local</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-container login-size">
+        <h2>🔑 Recuperar Senha</h2>
+        
+        <!-- ETAPA 1: E-MAIL -->
+        <form id="formEtapa1">
+            <p style="text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 20px;">Digite seu e-mail para buscar sua pergunta de segurança.</p>
+            <div class="form-group">
+                <label>Seu E-mail</label>
+                <input type="email" id="rec_email" required placeholder="Digite o e-mail cadastrado">
+            </div>
+            <button type="submit" class="btn-auth">Buscar Cadastro</button>
+        </form>
+
+        <!-- ETAPA 2: PERGUNTA E NOVA SENHA -->
+        <form id="formEtapa2" style="display: none;">
+            <div class="form-group">
+                <label style="color: #e67e22;">Sua Pergunta de Segurança:</label>
+                <p id="texto_pergunta" style="font-weight: bold; color: #2c3e50; background: #f4f6f7; padding: 10px; border-radius: 5px;"></p>
+            </div>
+            
+            <div class="form-group">
+                <label>Resposta</label>
+                <input type="text" id="rec_resposta" required placeholder="Digite sua resposta secreta">
+            </div>
+
+            <div class="form-group">
+                <label>Nova Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="rec_senha" required placeholder="Crie uma nova senha">
+                    <span class="toggle-password" onclick="togglePass('rec_senha', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Confirme a Nova Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="rec_senha_confirma" required placeholder="Repita a senha">
+                    <span class="toggle-password" onclick="togglePass('rec_senha_confirma', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth green">Redefinir Senha</button>
+        </form>
+
+        <div class="link-rodape">
+            <a href="login.html">Voltar para o Login</a>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
