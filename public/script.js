@@ -1,6 +1,3 @@
-// ==========================================
-// FUNÇÕES GLOBAIS
-// ==========================================
 function showToast(mensagem, tipo) {
     let toast = document.getElementById('toast');
     if (!toast) {
@@ -13,7 +10,6 @@ function showToast(mensagem, tipo) {
     setTimeout(() => toast.className = toast.className.replace('show', '').trim(), 3000);
 }
 
-// PROTEÇÃO DE TELA E DADOS DO USUÁRIO
 let nomeEmpresaGlobal = "Minha Empresa"; 
 
 fetch('/api/auth/check')
@@ -26,14 +22,10 @@ fetch('/api/auth/check')
             
             const tituloEmpresa = document.getElementById('display_nome_empresa');
             if (tituloEmpresa) tituloEmpresa.innerText = nomeEmpresaGlobal;
-             
         }
     })
     .catch(() => window.location.href = 'login.html');
 
-// ==========================================
-// --- LÓGICA DO DASHBOARD E RELATÓRIOS ---
-// ==========================================
 const elReceitas = document.querySelector('.text-green');
 const elDespesas = document.querySelector('.text-red');
 const elLucro = document.querySelector('.text-blue');
@@ -137,6 +129,23 @@ if (btnExportar) {
         let somaDesp = dadosDespesasFiltrados.reduce((acc, d) => acc + d.valor, 0);
         let lucro = somaRec - somaDesp;
 
+        let resumoPagamentos = {
+            'Dinheiro': 0,
+            'PIX': 0,
+            'Débito': 0,
+            'Crédito': 0
+        };
+
+        dadosVendasFiltrados.forEach(v => {
+            const forma = v.forma_pagamento || 'Dinheiro';
+            const valor = parseFloat(v.valor_pedido) || 0;
+            if (resumoPagamentos[forma] !== undefined) {
+                resumoPagamentos[forma] += valor;
+            } else {
+                resumoPagamentos[forma] = valor;
+            }
+        });
+
         let html = `
         <!DOCTYPE html>
         <html lang="pt-BR">
@@ -158,7 +167,8 @@ if (btnExportar) {
                 .resumo-box { display: flex; justify-content: space-between; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px; border: 1px solid #ddd; }
                 .resumo-item { text-align: center; width: 33%; }
                 .resumo-item span { display: block; font-size: 24px; font-weight: bold; margin-top: 10px; }
-                .info-block { background: #f4f6f7; padding: 15px 20px; border-left: 5px solid #27ae60; font-size: 18px; border-radius: 4px; margin-bottom: 20px;}
+                .info-block { background: #f4f6f7; padding: 15px 20px; border-left: 5px solid #27ae60; font-size: 18px; border-radius: 4px; margin-bottom: 15px;}
+                .pagamentos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #fff; border: 1px solid #ddd; padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-size: 14px; }
                 .btn-imprimir { display: block; width: 220px; margin: 0 auto 30px auto; padding: 12px; background: #2c3e50; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.2s; text-align: center; }
                 .btn-imprimir:hover { background: #34495e; }
                 @media print { .no-print { display: none !important; } }
@@ -171,14 +181,23 @@ if (btnExportar) {
             <p class="subtitle">${tituloRelatorio}</p>
         `;
 
+        const blocoPagamentosHtml = `
+            <div class="pagamentos-grid">
+                <div>💵 Dinheiro<br><strong class="text-green">R$ ${resumoPagamentos['Dinheiro'].toFixed(2).replace('.', ',')}</strong></div>
+                <div>💠 PIX<br><strong class="text-green">R$ ${resumoPagamentos['PIX'].toFixed(2).replace('.', ',')}</strong></div>
+                <div>💳 Débito<br><strong class="text-green">R$ ${resumoPagamentos['Débito'].toFixed(2).replace('.', ',')}</strong></div>
+                <div>💳 Crédito<br><strong class="text-green">R$ ${resumoPagamentos['Crédito'].toFixed(2).replace('.', ',')}</strong></div>
+            </div>
+        `;
+
         if (isDiario) {
-            html += `<h2>Receitas (Vendas Detalhadas)</h2><table><thead><tr><th>Hora</th><th>Descrição</th><th class="valor">Valor (R$)</th></tr></thead><tbody>`;
+            html += `<h2>Receitas (Vendas Detalhadas)</h2>${blocoPagamentosHtml}<table><thead><tr><th>Hora</th><th>Descrição</th><th>Pagamento</th><th class="valor">Valor (R$)</th></tr></thead><tbody>`;
             if (dadosVendasFiltrados.length === 0) {
-                html += `<tr><td colspan="3" style="text-align: center;">Nenhuma venda registrada.</td></tr>`;
+                html += `<tr><td colspan="4" style="text-align: center;">Nenhuma venda registrada.</td></tr>`;
             } else {
                 dadosVendasFiltrados.forEach(v => {
                     const hora = new Date(v.data_venda + 'Z').toLocaleTimeString('pt-BR');
-                    html += `<tr><td>${hora}</td><td>${v.descricao_itens}</td><td class="valor text-green">+ ${v.valor_pedido.toFixed(2).replace('.', ',')}</td></tr>`;
+                    html += `<tr><td>${hora}</td><td>${v.descricao_itens}</td><td>${v.forma_pagamento || 'Dinheiro'}</td><td class="valor text-green">+ ${v.valor_pedido.toFixed(2).replace('.', ',')}</td></tr>`;
                 });
             }
             html += `</tbody></table>`;
@@ -187,7 +206,8 @@ if (btnExportar) {
             <div class="info-block">
                 O total bruto arrecadado com as vendas deste mês foi de: 
                 <strong class="text-green" style="float: right;">R$ ${somaRec.toFixed(2).replace('.', ',')}</strong>
-            </div>`;
+            </div>
+            ${blocoPagamentosHtml}`;
         }
 
         html += `<h2>Despesas e Custos</h2><table><thead><tr><th>Data</th><th>Descrição</th><th class="valor">Valor (R$)</th></tr></thead><tbody>`;
@@ -217,9 +237,6 @@ if (btnExportar) {
 
 if(inputDataFiltro) carregarDashboard();
 
-// ==========================================
-// --- LÓGICA DE CADASTRO DE PRODUTOS ---
-// ==========================================
 const formProduto = document.getElementById('formProduto');
 if (formProduto) {
     formProduto.addEventListener('submit', async function(e) {
@@ -259,9 +276,6 @@ if (formProduto) {
     });
 }
 
-// ==========================================
-// --- LÓGICA DE VENDAS (FRENTE DE CAIXA) ---
-// ==========================================
 const formAdicionarItem = document.getElementById('formAdicionarItem');
 const inputBusca = document.getElementById('busca_produto');
 const hiddenProdutoId = document.getElementById('produto_id');
@@ -406,7 +420,6 @@ if (btnFinalizarVenda) {
     btnFinalizarVenda.addEventListener('click', async function() {
         if (carrinho.length === 0) return showToast('❌ Carrinho vazio!', 'error');
         
-        // Pega a forma de pagamento selecionada
         const selectPagamento = document.getElementById('forma_pagamento');
         const forma_pagamento = selectPagamento ? selectPagamento.value : 'Dinheiro';
 
@@ -414,7 +427,7 @@ if (btnFinalizarVenda) {
             const response = await fetch('/api/vendas', { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ itens: carrinho, forma_pagamento: forma_pagamento }) // Envia pro servidor
+                body: JSON.stringify({ itens: carrinho, forma_pagamento: forma_pagamento })
             });
             if(response.ok) { 
                 showToast('✅ Venda Registrada!', 'success'); 
@@ -427,9 +440,6 @@ if (btnFinalizarVenda) {
 }
 if (formAdicionarItem) carregarProdutosParaVenda();
 
-// ==========================================
-// --- LÓGICA DE GESTÃO DE ESTOQUE (PRODUTOS) ---
-// ==========================================
 const tabelaEstoque = document.getElementById('corpoTabelaEstoque');
 const inputBuscaEstoque = document.getElementById('busca_estoque');
 const modalEdicao = document.getElementById('modalEdicao');
@@ -457,7 +467,7 @@ function renderizarTabelaEstoque(lista) {
                 <td>R$ ${prod.preco_venda.toFixed(2).replace('.', ',')}</td>
                 <td><strong>${txtEstoque}</strong></td>
                 <td>
-                    <button onclick="abrirModalEdicao(${prod.id})" style="background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; margin-right: 5px;">✏️ Editar</button>
+                    <button onclick="abrirModalEdicao(${prod.id})" style="background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; margin-right: 5px;">✏️️ Editar</button>
                     <button onclick="abrirModalExclusaoProduto(${prod.id})" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">🗑️</button>
                 </td>
             </tr>
@@ -542,9 +552,6 @@ if (formEditarProduto) {
 
 if(tabelaEstoque) carregarEstoqueCompleto(); 
 
-// ==========================================
-// --- LÓGICA DE EXCLUSÃO DE PRODUTO ---
-// ==========================================
 const modalConfirmacaoProduto = document.getElementById('modalConfirmacaoProduto');
 const btnFecharModalExclusaoProd = document.getElementById('btnFecharModalExclusaoProd');
 const btnConfirmarExclusaoProd = document.getElementById('btnConfirmarExclusaoProd');
@@ -575,9 +582,6 @@ if (btnConfirmarExclusaoProd) {
     });
 }
 
-// ==========================================
-// --- LÓGICA DO HISTÓRICO DE VENDAS ---
-// ==========================================
 const tabelaHistorico = document.getElementById('corpoTabelaHistorico');
 const modalConfirmacao = document.getElementById('modalConfirmacao');
 const btnFecharModal = document.getElementById('btnFecharModal');
@@ -633,9 +637,6 @@ if (btnConfirmarExclusao) {
 }
 if (tabelaHistorico) carregarHistorico();
 
-// ==========================================
-// --- LÓGICA DE CONTROLE DE DESPESAS ---
-// ==========================================
 const formDespesa = document.getElementById('formDespesa');
 const tabelaDespesas = document.getElementById('corpoTabelaDespesas');
 const modalConfirmacaoDespesa = document.getElementById('modalConfirmacaoDespesa');
@@ -713,9 +714,6 @@ if (btnConfirmarExclusaoDespesa) {
 }
 if (tabelaDespesas) carregarDespesas();
 
-// ==========================================
-// LÓGICA DO MEU PERFIL E LOGOUT
-// ==========================================
 async function fazerLogout() {
     try {
         await fetch('/api/logout', { method: 'POST' });
@@ -777,9 +775,6 @@ if (formPerfilSenha) {
     });
 }
 
-// ==========================================
-// LÓGICA DE BACKUP E RESTAURAÇÃO
-// ==========================================
 const btnExportarDb = document.getElementById('btn_exportar_db');
 const inputImportar = document.getElementById('arquivo_importar');
 
@@ -865,9 +860,6 @@ if (btnExportarDb) {
     });
 }
 
-// ==========================================
-//            MODAL CUSTOMIZADO 
-// ==========================================
 function showConfirmModal(titulo, mensagem) {
     return new Promise((resolve) => {
         const overlay = document.createElement('div');
