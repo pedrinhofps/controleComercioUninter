@@ -2,6 +2,7 @@
   "name": "controle-comercio",
   "version": "1.0.0",
   "description": "O meu sistema de Gestão Local",
+  "author": "Pedro Batzner <pedrobatzner3@hotmail.com>",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
