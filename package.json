@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win"
+    "build": "electron-builder --win",
+    "build:linux": "electron-builder --linux"
   },
   "build": {
     "appId": "com.gestaolocal.pdv",
@@ -22,6 +23,14 @@
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": false,
       "include": "build/installer.nsh"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "pacman"
+      ],
+      "category": "Office"
     },
     "files": [
       "**/*",
@@ -42,5 +51,9 @@
   "devDependencies": {
     "electron": "^44.4.3",
     "electron-builder": "^26.15.3"
+  },
+  "allowScripts": {
+    "sqlite3@6.0.1": true,
+    "electron@44.4.3": true
   }
 }
